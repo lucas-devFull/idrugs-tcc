@@ -14,6 +14,12 @@ class Usuario extends MY_Controller {
         switch ($this->input->method()) {
             case 'get':
                 echo json_encode($this->usuario_model->getUsers($this->getContent()));
+            break;
+            case 'post':
+                $this->load->model("cliente_model");
+                $this->load->model("vendedor_model");
+                echo json_encode($this->usuario_model->cadastraUsuario($this->getContent()));
+            break;
         }
     }
 }
