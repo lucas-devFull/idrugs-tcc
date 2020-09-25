@@ -22,4 +22,13 @@ class Usuario extends MY_Controller {
             break;
         }
     }
+
+    public function validaLoginUsuario(){
+        $string = $this->getContent();
+        if (!empty($this->usuario_model->validaNickUsuario($string))) {
+            echo json_encode(array("status" => true));
+        }else{
+            echo json_encode(array("status" => false));
+        }
+    }
 }

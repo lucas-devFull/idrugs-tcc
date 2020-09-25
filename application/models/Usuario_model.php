@@ -16,7 +16,7 @@ class Usuario_model extends CI_Model{
       }
    }
 
-    public function cadastraUsuario($dados){
+   public function cadastraUsuario($dados){
        if (!empty($dados)) {
          $this->db->set("Login", $dados['login']);
          $this->db->set("Senha", md5($dados['senha']));
@@ -29,5 +29,10 @@ class Usuario_model extends CI_Model{
       }else{
          return false;
       }
-    }
+   }
+
+   public function validaNickUsuario($string){
+      $this->db->like("Login", $string['login'], "both");
+      return $this->db->get("Usuario")->result_array();
+   }
 }
