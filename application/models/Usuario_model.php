@@ -7,7 +7,7 @@ class Usuario_model extends CI_Model{
          $this->db->select("*");
          $this->db->where("Login", $dados['login']);
          $this->db->where("Senha", md5($dados['senha']));
-         if ($dados['tipo'] == "cliente") {
+         if ($dados['tipo'] == "2") {
             $this->db->join("Cliente", "Cliente.UsuarioId = Usuario.Id", "left");
          }else{
             $this->db->join("Vendedor", "Vendedor.UsuarioId = Usuario.Id", "left");
@@ -24,7 +24,7 @@ class Usuario_model extends CI_Model{
          $this->db->insert('Usuario');
          $id_usuario = $this->db->insert_id();
          $dadosUsuario = array("UsuarioId" => $id_usuario, "Nome" => $dados["nome"]);
-         ($dados['tipo_usuario'] == "cliente") ? $this->cliente_model->cadastraCliente($dadosUsuario) : $this->cadastraVendedor($dadosUsuario);
+         ($dados['tipo'] == "2") ? $this->cliente_model->cadastraCliente($dadosUsuario) : $this->cadastraVendedor($dadosUsuario);
          return true;
       }else{
          return false;
