@@ -18,13 +18,26 @@ class Usuario_model extends CI_Model{
 
    public function cadastraUsuario($dados){
        if (!empty($dados)) {
+          if (!empty($this->validaNickUsuario($dados))) {
+             return "ja existe um login com esse nome " . $dados['login'];
+          }
+
          $this->db->set("Login", $dados['login']);
          $this->db->set("Senha", md5($dados['senha']));
          $this->db->set("Tipo", $dados['tipo']);
          $this->db->insert('Usuario');
          $id_usuario = $this->db->insert_id();
-         $dadosUsuario = array("UsuarioId" => $id_usuario, "Nome" => $dados["nome"]);
-         ($dados['tipo'] == "2") ? $this->cliente_model->cadastraCliente($dadosUsuario) : $this->cadastraVendedor($dadosUsuario);
+         unset($dados['login']);
+         unset($dados['senha']);
+
+         $dados = array_merge($dados, array("UsuarioId" => $id_usuario));
+         if ($dados['tipo'] == "2") {
+            unset($dados['tipo']);
+            $this->cliente_model->cadastraCliente($dados);
+         }else{
+            unset($dados['tipo']);
+            $this->vendedor_model->cadastraVendedor($dados);
+         }
          return true;
       }else{
          return false;
