@@ -9,6 +9,13 @@ class MY_Controller extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
+        $this->load->library("Authorization_Token");
+        $validacao = $this->authorization_token->validateToken();
+
+        if($validacao['status'] == false){
+            echo json_encode($validacao);
+            exit;
+        }
     }
 
     function getContent($parametro = false) {

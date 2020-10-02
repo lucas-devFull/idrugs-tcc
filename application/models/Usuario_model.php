@@ -12,7 +12,7 @@ class Usuario_model extends CI_Model{
          }else{
             $this->db->join("Vendedor", "Vendedor.UsuarioId = Usuario.Id", "left");
          }
-         return $this->db->get("Usuario")->result_array();
+         return $this->db->get("Usuario")->row_array();
       }
    }
 
